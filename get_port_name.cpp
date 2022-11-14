@@ -30,33 +30,6 @@ static int handler(void* user, const char* section, const char* name,
     return 1;
 }
 
-#if 0
-int read_conf_COM_port_value(int* port_num)
-{
-
-    char* user_name = getenv("username");
-    printf("user name is %s \n", user_name);
-    char main_conf_path[256];
-    strcpy(main_conf_path, "C:\\Users\\");
-    strcat(main_conf_path, user_name);
-    strcat(main_conf_path, "\\Prismatik\\main.conf");
-    printf("path is %s \n", main_conf_path);
-
-    configuration config;
-
-    if (ini_parse(main_conf_path, handler, &config) < 0) {
-        printf("Can't load '%s\n", main_conf_path);
-        return 1;
-    }
-    printf("Config loaded from %s : serial_number is %s\n", main_conf_path, config.serial_number);
-    int number;
-    sscanf(config.serial_number, "s%d", &number);
-    printf("number is %d \n", number);
-    return 0;
-
-}
-#endif
-
 int read_conf_COM_port_string(char** port_num)
 {
 

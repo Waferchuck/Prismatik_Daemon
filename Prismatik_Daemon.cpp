@@ -48,7 +48,6 @@ int main()
 
     while (true)
     {
-        //printf("full port_str is %s\n", port_name);
 
         hComm = CreateFileA(port_name,  //port name
             GENERIC_READ | GENERIC_WRITE,   //Read/Write
@@ -67,6 +66,7 @@ int main()
             Sleep(2000);
             restart_prismatic();
         }
+
         Sleep(3000); //check every 3 seconds
     }
 
