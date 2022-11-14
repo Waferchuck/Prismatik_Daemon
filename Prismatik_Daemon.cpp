@@ -9,12 +9,12 @@ using namespace std;
 
 extern int read_conf_COM_port_string(char** port_num);
 
-int debug_flag = 1;
+#define DEBUG_FLAG 0
 
 void restart_prismatic(void)
 {
     system("taskkill /f /t /im Prismatik.exe");
-    if(debug_flag)
+    if(DEBUG_FLAG)
         printf("Prismatik.exe has been killed\nRestarting \n");
     Sleep(3000);
     ShellExecute(NULL, L"open", L"C:\\Program Files\\Prismatik\\Prismatik.exe", NULL, NULL, SW_SHOW);
@@ -26,7 +26,7 @@ void restart_prismatic(void)
         LPCTSTR lpDirectory,
         INT nShowCmd
     );
-    if(debug_flag)
+    if(DEBUG_FLAG)
         printf("\nPrismatik.exe has been restarted \n");
 }
 
@@ -39,18 +39,18 @@ int main()
     char* port_str_read = NULL;
     if (read_conf_COM_port_string(&port_str_read) == 0)
     {
-        if(debug_flag)
+        if(DEBUG_FLAG)
             printf("read back port_str is %s\n", port_str_read);
         strcat(port_name, port_str_read);
     }
     else
     {
-        if(debug_flag)
+        if(DEBUG_FLAG)
             printf("Error readin main.conf, EXIT");
         return 1;
     }
 
-    if(debug_flag)
+    if(DEBUG_FLAG)
         printf("full port_str is %s\n", port_name);
 
     while (true)
@@ -66,12 +66,12 @@ int main()
 
         if (hComm == INVALID_HANDLE_VALUE)
         {
-            if(debug_flag)
+            if(DEBUG_FLAG)
                 printf("Cannot open port %s, probably in use or does not exist\n", port_str_read);
         }
         else
         {
-            if(debug_flag)
+            if(DEBUG_FLAG)
                 printf("opening %s successfully, port idle, kick off Prismatik.exe\n", port_str_read);
             CloseHandle(hComm);//free the port
             Sleep(2000);
