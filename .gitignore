@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+/.vs/Prismatik_Daemon/v17
+/x64/Debug
+/Prismatik_Daemon.vcxproj.user
+/Prismatik_Daemon.vcxproj.filters
+/Prismatik_Daemon.vcxproj
