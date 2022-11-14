@@ -9,11 +9,13 @@ using namespace std;
 
 extern int read_conf_COM_port_string(char** port_num);
 
+int debug_flag = 1;
 
 void restart_prismatic(void)
 {
     system("taskkill /f /t /im Prismatik.exe");
-    printf("Prismatik.exe has been killed\nRestarting \n");
+    if(debug_flag)
+        printf("Prismatik.exe has been killed\nRestarting \n");
     Sleep(3000);
     ShellExecute(NULL, L"open", L"C:\\Program Files\\Prismatik\\Prismatik.exe", NULL, NULL, SW_SHOW);
     HINSTANCE ShellExecute(
@@ -24,7 +26,8 @@ void restart_prismatic(void)
         LPCTSTR lpDirectory,
         INT nShowCmd
     );
-    printf("\nPrismatik.exe has been restarted \n");
+    if(debug_flag)
+        printf("\nPrismatik.exe has been restarted \n");
 }
 
 int main()
@@ -36,15 +39,19 @@ int main()
     char* port_str_read = NULL;
     if (read_conf_COM_port_string(&port_str_read) == 0)
     {
-        printf("read back port_str is %s\n", port_str_read);
+        if(debug_flag)
+            printf("read back port_str is %s\n", port_str_read);
         strcat(port_name, port_str_read);
     }
     else
     {
-        printf("Error readin main.conf, EXIT");
+        if(debug_flag)
+            printf("Error readin main.conf, EXIT");
         return 1;
     }
-    printf("full port_str is %s\n", port_name);
+
+    if(debug_flag)
+        printf("full port_str is %s\n", port_name);
 
     while (true)
     {
@@ -58,10 +65,14 @@ int main()
             NULL);                          // Null for Comm Devices
 
         if (hComm == INVALID_HANDLE_VALUE)
-            printf("Cannot open port %s, probably in use or does not exist\n", port_str_read);
+        {
+            if(debug_flag)
+                printf("Cannot open port %s, probably in use or does not exist\n", port_str_read);
+        }
         else
         {
-            printf("opening %s successfully, port idle, kick off Prismatik.exe\n", port_str_read);
+            if(debug_flag)
+                printf("opening %s successfully, port idle, kick off Prismatik.exe\n", port_str_read);
             CloseHandle(hComm);//free the port
             Sleep(2000);
             restart_prismatic();
